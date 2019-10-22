@@ -43,6 +43,8 @@ suburb_lat_long$suburb <- str_to_lower(suburb_lat_long$suburb)
 loc_join <- merge_split %>% left_join(suburb_lat_long, by = c("suburb"))
 
 library(leaflet)
-leaflet(data = loc_join[200:400,]) %>% addTiles() %>% 
-  addMarkers(~lon+rnorm(201,sd=0.005), ~lat+rnorm(201,sd=0.005), popup = ~as.character(location), label = ~as.character(location))
+leaflet(data = loc_join %>% distinct()) %>% addTiles() %>% 
+  addMarkers(~lon, ~lat, 
+             popup = ~as.character(location), label = ~as.character(location),
+             clusterOptions = markerClusterOptions(freezeAtZoom = 9))
 
